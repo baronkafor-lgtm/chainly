@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chainly - Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div id="app">
+        <!-- Sidebar will be injected here -->
+        <div id="sidebar-container"></div>
+
+        <main class="main-content">
+            <header class="header">
+                <div class="search-bar" style="width: 400px;">
+                    <div class="input-group" style="margin-bottom: 0;">
+                        <input type="text" class="input" placeholder="Search Zaps..."
+                            style="height: 40px; background: rgba(255,255,255,0.05); border: none; color: white;">
+                    </div>
+                </div>
+                <div class="user-menu" style="display: flex; align-items: center; gap: 16px;">
+                    <button class="btn btn-primary btn-sm"
+                        onclick="window.location.href='pricing.html'">Upgrade</button>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <div id="user-avatar"
+                            style="width: 32px; height: 32px; background: var(--color-primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">
+                            U
+                        </div>
+                        <span id="user-name" style="font-size: 14px; font-weight: 500;">User</span>
+                    </div>
+                    <button class="btn btn-ghost btn-sm" onclick="Auth.logout()"
+                        style="color: var(--color-text-subtle);">
+                        <i data-lucide="log-out" style="width: 16px; height: 16px;"></i>
+                    </button>
+                </div>
+            </header>
+
+            <div id="page-content" class="page-content">
+                <!-- Dashboard content will be injected here by js/app.js -->
+            </div>
+        </main>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+
+</html>

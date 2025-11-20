@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chainly - Pricing</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .pricing-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+            margin-top: 48px;
+        }
+
+        .pricing-card {
+            background: rgba(18, 18, 18, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--color-border);
+            border-radius: 16px;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card.featured {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.1);
+            transform: scale(1.05);
+        }
+
+        .pricing-card.featured::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: 12px;
+            right: -30px;
+            background: var(--color-primary);
+            color: black;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 4px 30px;
+            transform: rotate(45deg);
+        }
+
+        .price {
+            font-size: 48px;
+            font-weight: 700;
+            color: var(--color-text-main);
+            margin: 24px 0 8px;
+        }
+
+        .period {
+            font-size: 16px;
+            color: var(--color-text-subtle);
+        }
+
+        .features {
+            margin: 32px 0;
+            list-style: none;
+            padding: 0;
+            text-align: left;
+            width: 100%;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            color: var(--color-text-subtle);
+        }
+
+        .feature-item i {
+            color: var(--color-success);
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="app">
+        <header class="header">
+            <div style="display: flex; align-items: center; gap: 16px;">
+                <a href="app.html" class="btn btn-ghost btn-sm"><i data-lucide="arrow-left"></i> Back to Dashboard</a>
+                <div style="font-weight: 700; font-size: 20px;">Chainly</div>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="pricing-container">
+                <h1 style="font-size: 42px; margin-bottom: 16px;">Simple, Transparent Pricing</h1>
+                <p style="font-size: 18px; max-width: 600px; margin: 0 auto;">Choose the plan that fits your automation
+                    needs. No hidden fees.</p>
+
+                <div class="pricing-grid">
+                    <!-- Free Plan -->
+                    <div class="pricing-card">
+                        <h3 style="font-size: 24px;">Starter</h3>
+                        <div class="price">$0</div>
+                        <div class="period">for first month trial</div>
+
+                        <ul class="features">
+                            <li class="feature-item"><i data-lucide="check"></i> 30 Tasks</li>
+                            <li class="feature-item"><i data-lucide="check"></i> 5 Zaps</li>
+                            <li class="feature-item"><i data-lucide="check"></i> 15 min Update Time</li>
+                            <li class="feature-item"><i data-lucide="check"></i> Single Step Zaps</li>
+                        </ul>
+
+                        <button class="btn btn-ghost"
+                            style="width: 100%; border: 1px solid var(--color-border);">Current Plan</button>
+                    </div>
+
+                    <!-- Pro Plan -->
+                    <div class="pricing-card featured">
+                        <h3 style="font-size: 24px; color: var(--color-primary);">Pro</h3>
+                        <div class="price">$27</div>
+                        <div class="period">per month</div>
+
+                        <ul class="features">
+                            <li class="feature-item"><i data-lucide="check"></i> 5,000 Tasks / month</li>
+                            <li class="feature-item"><i data-lucide="check"></i> Unlimited Zaps</li>
+                            <li class="feature-item"><i data-lucide="check"></i> 2 min Update Time</li>
+                            <li class="feature-item"><i data-lucide="check"></i> Multi-step Zaps</li>
+                            <li class="feature-item"><i data-lucide="check"></i> Premium Apps</li>
+                        </ul>
+
+                        <button class="btn btn-primary" style="width: 100%;" onclick="startCheckout()">Subscribe
+                            Now</button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        async function startCheckout() {
+            const btn = document.querySelector('.pricing-card.featured .btn-primary');
+            const originalText = btn.innerText;
+            btn.innerText = 'Processing...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ plan: 'pro_27' })
+                });
+
+                const data = await response.json();
+
+                if (data.url) {
+                    window.location.href = data.url;
+                } else {
+                    alert('Checkout simulation: ' + data.message);
+                    btn.innerText = 'Subscribed!';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to start checkout. Server might be offline.');
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chainly - Sign Up</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/components.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .auth-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            background: var(--color-bg-page);
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 400px;
+            background: var(--color-bg-surface);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .auth-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .auth-logo {
+            width: 48px;
+            height: 48px;
+            background: var(--color-primary);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            margin: 24px 0;
+            color: var(--color-text-subtle);
+            font-size: 14px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--color-border);
+        }
+
+        .divider::before {
+            margin-right: 12px;
+        }
+
+        .divider::after {
+            margin-left: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <div class="auth-logo">
+                    <i data-lucide="zap" style="color: black; width: 24px; height: 24px;"></i>
+                </div>
+                <h1 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Create an account</h1>
+                <p style="color: var(--color-text-subtle);">Start automating your work today</p>
+            </div>
+
+            <button class="btn btn-secondary" style="width: 100%; justify-content: center; margin-bottom: 16px;">
+                <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google" style="width: 18px; height: 18px; margin-right: 8px;">
+                Sign up with Google
+            </button>
+
+            <div class="divider">OR</div>
+
+            <form onsubmit="handleSignup(event)">
+                <div class="input-group">
+                    <label class="label">Full Name</label>
+                    <input type="text" class="input" placeholder="John Doe" required>
+                </div>
+
+                <div class="input-group">
+                    <label class="label">Email</label>
+                    <input type="email" class="input" placeholder="name@work-email.com" required>
+                </div>
+
+                <div class="input-group">
+                    <label class="label">Password</label>
+                    <input type="password" class="input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; justify-content: center; margin-top: 8px;">
+                    Create Account
+                </button>
+            </form>
+
+            <div style="text-align: center; margin-top: 24px; font-size: 14px; color: var(--color-text-subtle);">
+                Already have an account? <a href="login.html" style="color: var(--color-primary); text-decoration: none;">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/app.js"></script>
+    <script>
+        lucide.createIcons();
+
+        function handleSignup(e) {
+            e.preventDefault();
+            // Simulate signup
+            const btn = e.target.querySelector('button[type="submit"]');
+            const originalText = btn.innerText;
+            btn.innerText = 'Creating account...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                // Set mock auth token
+                localStorage.setItem('chainly_user', JSON.stringify({
+                    id: 'user_' + Date.now(),
+                    email: e.target.querySelector('input[type="email"]').value,
+                    name: e.target.querySelector('input[type="text"]').value
+                }));
+                window.location.href = 'app.html';
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>
